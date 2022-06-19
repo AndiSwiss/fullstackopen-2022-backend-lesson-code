@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/fullstackopen-2022-backend.iml" filepath="$PROJECT_DIR$/.idea/fullstackopen-2022-backend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/fullstackopen-2022-backend-lesson-code.iml" filepath="$PROJECT_DIR$/.idea/fullstackopen-2022-backend-lesson-code.iml" />
     </modules>
   </component>
 </project>
