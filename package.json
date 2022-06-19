@@ -8,7 +8,7 @@
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:frontend-part3": "rm -rf build && cd ../fullstackopen-2022/part3/lesson-code-frontend/ && npm run build && cd ../../../fullstackopen-2022-backend-lesson-code && cp -r ../fullstackopen-2022/part3/lesson-code-frontend/build ./",
-    "deploy": "git push heroku HEAD:main --force",
+    "deploy": "git push heroku HEAD:main",
     "deploy:full": "npm run build:frontend-part3 && git add . && git commit -m frontend-build && npm run deploy",
     "logs:prod": "heroku logs --tail"
   },
