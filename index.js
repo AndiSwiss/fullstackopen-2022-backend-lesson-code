@@ -43,13 +43,6 @@ let notes = [
 ]
 
 /**
- * GET '/' => hello world
- */
-app.get('/', (request, response) => {
-  response.send('<h1>Hello World!</h1>')
-})
-
-/**
  * GET all notes
  */
 app.get('/api/notes', (request, response) => {
