@@ -8,3 +8,9 @@ This is a repo for **lesson-code** backends for the Open University Course "Full
 - Branch `part3b-lesson-code`: Lesson-code for part3b => deployed to Heroku:
     - https://dashboard.heroku.com/apps/fullstackopen-part3b-lesson/deploy/heroku-git
     - available at https://fullstackopen-part3b-lesson.herokuapp.com
+    - For changes:
+```bash
+heroku git:remote -a fullstackopen-part3b-lesson
+# create your commits
+git push heroku part3b-lesson-code
+```
