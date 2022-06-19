@@ -5,6 +5,10 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
+// Serve the production-build of the frontend in folder /build
+// Was built from repo 'fullstackopen-2022', folder part3/lesson-code-frontend
+app.use(express.static('build'))
+
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
   console.log('Path:  ', request.path)
