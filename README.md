@@ -14,10 +14,5 @@ This is a repo for **lesson-code backends** for the Open University Course "Full
     - then use the run-config `deploy:full` => this script does a lot:
       - Fetch and build frontend, copy the build, make an automated commit, set the correct heroku git-link, and deploy the app to heroku! 
       - => see scripts-section in package.json for exact commands
-
-```bash
-# Start the web-app
-heroku open
-# Start the app locally
-heroku local
-```
+  - Start the web-app: `heroku open`
+  - Start the app locally: `heroku local`
