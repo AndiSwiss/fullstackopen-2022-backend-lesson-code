@@ -5,8 +5,10 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
-// Serve the production-build of the frontend in folder /build
-// Was built from repo 'fullstackopen-2022', folder part3/lesson-code-frontend
+/**
+ * Serve the production-build of the frontend in folder /build
+ * Was built from repo 'fullstackopen-2022', folder part3/lesson-code-frontend
+ */
 app.use(express.static('build'))
 
 const requestLogger = (request, response, next) => {
@@ -40,17 +42,23 @@ let notes = [
   }
 ]
 
-// GET '/' => hello world
+/**
+ * GET '/' => hello world
+ */
 app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>')
 })
 
-// GET all notes
+/**
+ * GET all notes
+ */
 app.get('/api/notes', (request, response) => {
   response.json(notes)
 })
 
-// GET individual note
+/**
+ * GET individual note
+ */
 app.get('/api/notes/:id', (request, response) => {
   const id = Number(request.params.id) // Don't forget to convert from string to Number
   const note = notes.find(note => note.id === id)
@@ -58,7 +66,10 @@ app.get('/api/notes/:id', (request, response) => {
   else response.status(404).end()
 })
 
-// Generate a new id
+/**
+ * Generate a new id
+ * @returns {number} new id
+ */
 const generateId = () => {
   const maxId = notes.length > 0
     ? Math.max(...notes.map(n => n.id))
@@ -66,7 +77,9 @@ const generateId = () => {
   return maxId + 1
 }
 
-// POST a new note
+/**
+ * POST a new note
+ */
 app.post('/api/notes', (request, response) => {
   const body = request.body
 
@@ -83,20 +96,55 @@ app.post('/api/notes', (request, response) => {
   response.json(note)
 })
 
-// DELETE a note
+/**
+ * PUT: Change a note
+ */
+app.put('/api/notes/:id', (request, response) => {
+  const id = Number(request.params.id)
+  const body = request.body
+  // Abort if note is not on the server
+  if (!notes.find(note => note.id === id)) {
+    return response.status(404).json({error: `The note with id='${id}' is not on the server!`})
+  }
+
+  // Abort if there is no valid body
+  if (!body.content) return response.status(400).json({error: 'content missing (JSON expected)'})
+
+  const changedNote = {
+    id,
+    content: body.content,
+    important: body.important || false,
+    date: body.date || new Date(),
+  }
+
+  notes = notes.map(note => note.id === id
+    ? changedNote
+    : note
+  )
+
+  response.json(changedNote)
+})
+
+/**
+ * DELETE a note
+ */
 app.delete('/api/notes/:id', (request, response) => {
   const id = Number(request.params.id)
   notes = notes.filter(note => note.id !== id)
   response.status(204).end()
 })
 
-
+/**
+ * Answer for all other (unknown) endpoints)
+ */
 const unknownEndpoint = (request, response) => {
-  response.status(404).send({error: 'unknown endpoint'})
+  response.status(404).send({error: 'unknown endpoint!'})
 }
 app.use(unknownEndpoint)
 
-// Run app
+/**
+ * Run app
+ */
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`)
