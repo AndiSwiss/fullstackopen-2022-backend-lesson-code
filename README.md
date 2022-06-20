@@ -4,6 +4,14 @@ This is a repo for **lesson-code backends** for the Open University Course "Full
 - Main repo: https://github.com/AndiSwiss/fullstackopen-2022
 - Backends for the **exercises**: https://github.com/AndiSwiss/fullstackopen-2022-backend
 
+## For local execution
+- create a `.env`-file in the root-directory with the following content (change port at will):
+```
+PORT=3001
+LOCAL_HOST_URL=http://localhost
+```
+Then run `heroku local` or the run-config _heroku-local_.
+
 ## Organized in branches
 - Branch `part3b-lesson-code`: Lesson-code for part3b => deployed to Heroku:
   - Dashboard: https://dashboard.heroku.com/apps/fullstackopen-part3b-lesson
