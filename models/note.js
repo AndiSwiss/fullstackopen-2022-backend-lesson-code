@@ -15,6 +15,7 @@ mongoose.connect(url)
     console.log(`error-message: ${error}`);
   })
 
+
 const noteSchema = new mongoose.Schema({
   content: String,
   date: Date,
