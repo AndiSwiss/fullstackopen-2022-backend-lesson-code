@@ -139,7 +139,7 @@ app.use(unknownEndpoint)
 /**
  * Run app
  */
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT
 const LOCAL_HOST_URL = process.env.LOCAL_HOST_URL
 app.listen(PORT, () => {
   if (LOCAL_HOST_URL) console.log(`Server running at ${LOCAL_HOST_URL}:${PORT}`)
