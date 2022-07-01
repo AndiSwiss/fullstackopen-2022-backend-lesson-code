@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const app = express()
+const mongoose = require('mongoose')
 
 app.use(express.json())
 app.use(cors())
@@ -20,6 +21,21 @@ const requestLogger = (request, response, next) => {
 }
 
 app.use(requestLogger)
+
+// from https://cloud.mongodb.com => Button 'Connect' => 'Connect your application'
+const mongoPw = process.env.MONGO_PW
+if (!mongoPw) throw "Mongo-PW is missing!"
+const url = `mongodb+srv://andiadmin:${mongoPw}@cluster0.swbor.mongodb.net/?retryWrites=true&w=majority`
+
+mongoose.connect(url)
+
+const noteSchema = new mongoose.Schema({
+  content: String,
+  date: Date,
+  important: Boolean
+})
+
+const Note = mongoose.model('Note', noteSchema)
 
 let notes = [
   {
@@ -46,7 +62,7 @@ let notes = [
  * GET all notes
  */
 app.get('/api/notes', (request, response) => {
-  response.json(notes)
+  Note.find({}).then(notes => response.json(notes))
 })
 
 /**
