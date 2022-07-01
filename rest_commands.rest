@@ -1,0 +1,15 @@
+### Testing my backend
+### ==================
+###
+### See full help at:
+### https://www.jetbrains.com/help/webstorm/http-client-in-product-code-editor.html
+
+### Note: You can directly paste a curl-command => gets automatically converted to an http-request
+### and via Context Action, you can create a curl-command from an http-request
+POST http://localhost:3001/api/notes
+Content-Type: application/json
+
+{
+  "content": "IntelliJ REST client",
+  "important": true
+}
