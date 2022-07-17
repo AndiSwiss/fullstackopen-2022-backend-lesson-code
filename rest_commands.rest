@@ -13,3 +13,43 @@ Content-Type: application/json
   "content": "IntelliJ REST client",
   "important": true
 }
+
+### Delete an entry
+DELETE http://localhost:3001/api/notes/62b096c36173f1a2e006c33b
+
+
+### Change importance of an entry
+PUT http://localhost:3001/api/notes/62b03b56b9689ea5dfed0507
+Content-Type: application/json
+
+{
+  "important": false
+}
+
+
+### Change ONLY the title of an entry
+PUT http://localhost:3001/api/notes/62b03b56b9689ea5dfed0507
+Content-Type: application/json
+
+{
+  "content": "HTML is indeed easy!!"
+}
+
+
+### Change a NON-EXISTING entry
+PUT http://localhost:3001/api/notes/62b03b56b9689ea5dfed0577
+Content-Type: application/json
+
+{
+  "important": true
+}
+
+
+### Change a NON-EXISTING entry, should throw an error because of malformatted object-id
+PUT http://localhost:3001/api/notes/777777777777777
+Content-Type: application/json
+
+{
+  "important": true
+}
+
