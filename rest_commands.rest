@@ -53,3 +53,22 @@ Content-Type: application/json
   "important": true
 }
 
+
+
+### Change the title to too short (should throw an ValidationError)
+PUT http://localhost:3001/api/notes/62b03b56b9689ea5dfed0507
+Content-Type: application/json
+
+{
+  "content": "tin"
+}
+
+
+### Create an entry with a title that is too short (should throw an ValidationError)
+POST http://localhost:3001/api/notes
+Content-Type: application/json
+
+{
+  "content": "tiny",
+  "important": true
+}
