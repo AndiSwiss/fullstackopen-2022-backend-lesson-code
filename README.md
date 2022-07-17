@@ -12,8 +12,8 @@ LOCAL_HOST_URL=http://localhost
 ```
 Then run `heroku local` or the run-config _heroku-local_.
 
-## Organized in branches
-- Branch `part3b-lesson-code`: Lesson-code for part3b => deployed to Heroku:
+## Organized in branches / tags / releases
+- Release / Tag `part3b-lesson-code`: Lesson-code for part3b => deployed to Heroku:
   - Dashboard: https://dashboard.heroku.com/apps/fullstackopen-part3b-lesson
   - Available at: https://fullstackopen-part3b-lesson.herokuapp.com
   - **NOTE:** Originally, I had this branch on my other git-project on https://github.com/AndiSwiss/fullstackopen-2022-backend in the branch `part3b-lesson-code`, but then I copied all the git-commits manually to this repo to have separate repos.
@@ -24,3 +24,4 @@ Then run `heroku local` or the run-config _heroku-local_.
       - => see scripts-section in package.json for exact commands
   - Start the web-app: `heroku open`
   - Start the app locally: `heroku local`
+- Release / Tag `part3c-lesson-code`: Lesson-code for part3c => deployed to Heroku - to the same address and with the same settings as in part3b
