@@ -6,19 +6,26 @@ const mongoDbUser = process.env.MONGODB_USER
 const mongoDbPw = process.env.MONGODB_PW
 const url = `mongodb+srv://${mongoDbUser}:${mongoDbPw}@${mongoDbCluster}/?retryWrites=true&w=majority`
 const urlNoPassword = `mongodb+srv://${mongoDbUser}:**********@${mongoDbCluster}/?retryWrites=true&w=majority`
-if (!url) throw "MongoDB-URL is missing!"
+if (!url) throw 'MongoDB-URL is missing!'
 
 mongoose.connect(url)
-  .then(result => console.log(`connected to MongoDB: ${urlNoPassword}`))
+  .then(() => console.log(`connected to MongoDB: ${urlNoPassword}`))
   .catch(error => {
-    console.log(`error connecting to MongoDB: ${urlNoPassword}`);
-    console.log(`error-message: ${error}`);
+    console.log(`error connecting to MongoDB: ${urlNoPassword}`)
+    console.log(`error-message: ${error}`)
   })
 
 
 const noteSchema = new mongoose.Schema({
-  content: String,
-  date: Date,
+  content: {
+    type: String,
+    minLength: 5,
+    required: true
+  },
+  date: {
+    type: Date,
+    required: true
+  },
   important: Boolean
 })
 

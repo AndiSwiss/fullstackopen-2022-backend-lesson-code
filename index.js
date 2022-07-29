@@ -51,12 +51,12 @@ app.post('/api/notes', (request, response, next) => {
   const body = request.body
 
   // Abort if there is no valid body
-  if (!body.content) return response.status(400).json({error: 'content missing (JSON expected)'})
+  if (!body.content) return response.status(400).json({ error: 'content missing (JSON expected)' })
 
   const note = new Note({
     content: body.content,
     important: body.important || false,
-    date: new Date(),
+    date: new Date()
   })
 
   note.save()
@@ -68,14 +68,13 @@ app.post('/api/notes', (request, response, next) => {
  * PUT: Change a note
  */
 app.put('/api/notes/:id', (request, response, next) => {
-  const body = request.body
+  const { content, important } = request.body
 
-  const note = {
-    content: body.content,
-    important: body.important || false,
-  }
-
-  Note.findByIdAndUpdate(request.params.id, note, {new: true})
+  Note.findByIdAndUpdate(
+    request.params.id,
+    { content, important },
+    { new: true, runValidators: true, context: 'query' }
+  )
     .then(updatedNote => {
       response.json(updatedNote)
     })
@@ -87,7 +86,7 @@ app.put('/api/notes/:id', (request, response, next) => {
  */
 app.delete('/api/notes/:id', (request, response, next) => {
   Note.findByIdAndRemove(request.params.id)
-    .then(result => response.status(204).end())
+    .then(() => response.status(204).end())
     .catch(error => next(error))
 })
 
@@ -95,7 +94,7 @@ app.delete('/api/notes/:id', (request, response, next) => {
  * Answer for all other (unknown) endpoints)
  */
 const unknownEndpoint = (request, response) => {
-  response.status(404).send({error: 'unknown endpoint!'})
+  response.status(404).send({ error: 'unknown endpoint!' })
 }
 app.use(unknownEndpoint)
 
@@ -104,12 +103,14 @@ app.use(unknownEndpoint)
  */
 const errorHandler = (error, request, response, next) => {
   console.log(error)
-  response.status(400).send({
-    error: error.name,
-    errorMessage: error.message
-  })
+
+  if (error.name === 'CastError') return response.status(400).send({ error: 'malformatted id' })
+  else if (error.name === 'ValidationError') return response.status(400).json({ error: error.message })
+
+  next(error)
 }
 app.use(errorHandler)
+
 
 /**
  * Run app
