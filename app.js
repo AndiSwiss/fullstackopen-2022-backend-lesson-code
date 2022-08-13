@@ -4,7 +4,7 @@ const app = express()
 const cors = require('cors')
 const notesRouter = require('./controllers/notes')
 const middleware = require('./utils/middleware')
-const logger = require('./utils/logger')
+const { info } = require('./utils/logger')
 const mongoose = require('mongoose')
 
 
@@ -17,14 +17,11 @@ const url = `mongodb+srv://${mongoDbUser}:${mongoDbPw}@${mongoDbCluster}/?retryW
 const urlNoPassword = `mongodb+srv://${mongoDbUser}:**********@${mongoDbCluster}/?retryWrites=true&w=majority`
 if (!url) throw 'MongoDB-URL is missing!'
 
-
-// TODO: replace all 'console.log(...)'  with  logger.info  or logger.error!!!
-
 mongoose.connect(url)
-  .then(() => console.log(`connected to MongoDB: ${urlNoPassword}`))
+  .then(() => info(`connected to MongoDB: ${urlNoPassword}`))
   .catch(error => {
-    console.log(`error connecting to MongoDB: ${urlNoPassword}`)
-    console.log(`error-message: ${error}`)
+    info(`error connecting to MongoDB: ${urlNoPassword}`)
+    info(`error-message: ${error}`)
   })
 
 app.use(cors())
