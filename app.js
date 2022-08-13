@@ -38,8 +38,11 @@ app.use(express.static('build'))
 app.use(express.json())
 
 app.use(middleware.requestLogger)
+
+// use all the routes for the note api:
+app.use('/api/notes', notesRouter)
+
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
-
 
 module.exports = app
