@@ -21,3 +21,25 @@ describe('reverse', () => {
     expect(result).toBe('!tcaer ekil I')
   })
 })
+
+/**
+ * From https://jestjs.io/docs/api#1-testeachtablename-fn-timeout
+ */
+describe('reverse with ".each"', () => {
+  test.each([
+    ['be', 'eb'],
+    ['', ''],
+    ['ZZZ', 'ZZZ'],
+    ['12345', '54321']
+  ])('reverse of "%s"', (str, expected) => {
+    expect(reverse(str)).toBe(expected)
+  })
+  // Or more readable (wrapped in an object)
+  test.each([
+    { str: '', expected: '' },
+    { str: 'aa', expected: 'aa' },
+    { str: 'Awesome!', expected: '!emosewA' },
+  ])('reverse of "$str"', ({ str, expected }) => {
+    expect(reverse(str)).toBe(expected)
+  })
+})
