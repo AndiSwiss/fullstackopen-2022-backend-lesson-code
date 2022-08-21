@@ -6,14 +6,14 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "set-heroku-git": "heroku git:remote -a fullstackopen-part3b-lesson",
     "build:frontend-part3": "rm -rf build && cd ../fullstackopen-2022/part3/lesson-code-frontend/ && npm run build && cd ../../../fullstackopen-2022-backend-lesson-code && cp -r ../fullstackopen-2022/part3/lesson-code-frontend/build ./",
     "deploy": "npm run set-heroku-git && git push heroku HEAD:main",
     "deploy:full": "npm run build:frontend-part3 && git add . && git commit -m uibuild && npm run deploy",
     "logs:prod": "heroku logs --tail",
     "heroku-local": "heroku local",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "jest --verbose"
   },
   "repository": {
     "type": "git",
@@ -35,6 +35,10 @@
   },
   "devDependencies": {
     "eslint": "^8.20.0",
+    "jest": "^28.1.3",
     "nodemon": "^2.0.16"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }
