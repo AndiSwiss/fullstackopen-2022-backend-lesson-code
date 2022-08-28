@@ -30,11 +30,8 @@ notesRouter.get('/:id', (request, response, next) => {
 /**
  * POST a new note
  */
-notesRouter.post('/', (request, response, next) => {
+notesRouter.post('/', async (request, response, next) => {
   const body = request.body
-
-  // Abort if there is no valid body
-  if (!body.content) return response.status(400).json({ error: 'content missing (JSON expected)' })
 
   const note = new Note({
     content: body.content,
@@ -42,9 +39,15 @@ notesRouter.post('/', (request, response, next) => {
     date: new Date()
   })
 
-  note.save()
-    .then(savedNote => response.status(201).json(savedNote))
-    .catch(error => next(error))
+  // note.save()
+  //   .then(savedNote => response.status(201).json(savedNote))
+  //   .catch(error => next(error))
+  try {
+    const savedNote = await note.save()
+    response.status(201).json(savedNote)
+  } catch (exception) {
+    next(exception)
+  }
 })
 
 /**
