@@ -7,7 +7,7 @@ const LOCAL_HOST_URL = process.env.LOCAL_HOST_URL
 
 // from https://cloud.mongodb.com => Button 'Connect' => 'Connect your application'
 // But before the options add your appName, e.g. (without admin/pw) add the 'noteApp' in between:
-// MONGODB_URI=mongodb+srv://****:*********@cluster0.swbor.mongodb.net/noteApp?retryWrites=true&w=majority
+// MONGODB_URI=mongodb+srv://****:*********@cluster0.***.mongodb.net/noteApp?retryWrites=true&w=majority
 if (!process.env.MONGODB_URI) throw 'MONGODB_URI is missing in .env!'
 if (!process.env.TEST_MONGODB_URI) throw 'MONGODB_URI is missing in .env!'
 
