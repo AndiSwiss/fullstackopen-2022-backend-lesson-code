@@ -60,6 +60,16 @@ describe('new note', () => {
 
     expect(notesAtEnd).toHaveLength(helper.initialNotes.length)
   })
+
+  test('note a too short title is not added', async () => {
+    const newNote = { content: 'tiny', important: true }
+    await api
+      .post('/api/notes')
+      .send(newNote)
+      .expect(400)
+    const notesAtEnd = await helper.notesInDb()
+    expect(notesAtEnd).toHaveLength(helper.initialNotes.length)
+  })
 })
 
 describe('fetch, change and remove individual note', () => {
