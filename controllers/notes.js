@@ -11,8 +11,12 @@ notesRouter.get('/', async (request, response, next) => {
 
   // New, with async/await => https://fullstackopen.com/en/part4/testing_the_backend#async-await-in-the-backend
   // But: What about the error-handler??
-  const notes = await Note.find({})
-  response.json(notes)
+  try {
+    const notes = await Note.find({})
+    response.json(notes)
+  } catch (exception) {
+    next(exception)
+  }
 })
 
 /**
