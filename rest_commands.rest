@@ -19,7 +19,7 @@ DELETE http://localhost:3001/api/notes/62b096c36173f1a2e006c33b
 
 
 ### Change importance of an entry
-PUT http://localhost:3001/api/notes/62b03b56b9689ea5dfed0507
+PUT http://localhost:3001/api/notes/630b96dfc7af8de065c2cec4
 Content-Type: application/json
 
 {
@@ -28,7 +28,7 @@ Content-Type: application/json
 
 
 ### Change ONLY the title of an entry
-PUT http://localhost:3001/api/notes/62b03b56b9689ea5dfed0507
+PUT http://localhost:3001/api/notes/630b96dfc7af8de065c2cec4
 Content-Type: application/json
 
 {

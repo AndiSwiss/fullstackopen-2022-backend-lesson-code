@@ -62,7 +62,7 @@ describe('new note', () => {
   })
 })
 
-describe('fetch and remove individual note', () => {
+describe('fetch, change and remove individual note', () => {
   test('a specific note can be viewed', async () => {
     const notesAtStart = await helper.notesInDb()
     const noteToView = notesAtStart[0]
@@ -73,6 +73,28 @@ describe('fetch and remove individual note', () => {
     // The following only has the effect that it converts the 'date' entry from an actual Date-Object to a Date-String
     const processedNoteToView = JSON.parse(JSON.stringify(noteToView))
     expect(resultNote.body).toEqual(processedNoteToView)
+  })
+
+  test('note title can be changed', async () => {
+    const notesAtStart = await helper.notesInDb()
+    const noteToChange = { ...notesAtStart[0], content: 'Changed title is nice' }
+    const updatedNote = await api
+      .put(`/api/notes/${noteToChange.id}`)
+      .send({ content: 'Changed title is nice' })
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+    const processedNoteToChange = JSON.parse(JSON.stringify(noteToChange))
+    expect(updatedNote.body).toEqual(processedNoteToChange)
+  })
+
+  test('note title too short', async () => {
+    const notesAtStart = await helper.notesInDb()
+    const noteToChange = { ...notesAtStart[0], content: 'Tiny' }
+    await api
+      .put(`/api/notes/${noteToChange.id}`)
+      .send({ content: 'Tiny' })
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
   })
 
   test('a note can be deleted', async () => {
