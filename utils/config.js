@@ -4,6 +4,7 @@ require('dotenv').config()
 const PORT = process.env.PORT
 const LOCAL_HOST_URL = process.env.LOCAL_HOST_URL
 
+
 // from https://cloud.mongodb.com => Button 'Connect' => 'Connect your application'
 // But before the options add your appName, e.g. (without admin/pw) add the 'noteApp' in between:
 // MONGODB_URI=mongodb+srv://****:*********@cluster0.swbor.mongodb.net/noteApp?retryWrites=true&w=majority
