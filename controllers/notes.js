@@ -58,18 +58,18 @@ notesRouter.post('/', async (request, response, next) => {
 /**
  * PUT: Change a note
  */
-notesRouter.put('/:id', (request, response, next) => {
+notesRouter.put('/:id', async (request, response, next) => {
   const { content, important } = request.body
-
-  Note.findByIdAndUpdate(
-    request.params.id,
-    { content, important },
-    { new: true, runValidators: true, context: 'query' }
-  )
-    .then(updatedNote => {
-      response.json(updatedNote)
-    })
-    .catch(error => next(error))
+  try {
+    const updatedNote = await Note.findByIdAndUpdate(
+      request.params.id,
+      { content, important },
+      { new: true, runValidators: true, context: 'query' }
+    )
+    response.json(updatedNote)
+  } catch (exception) {
+    next(exception)
+  }
 })
 
 /**
