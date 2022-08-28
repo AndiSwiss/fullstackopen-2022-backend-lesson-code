@@ -4,10 +4,15 @@ const Note = require('../models/note')
 /**
  * GET all notes
  */
-notesRouter.get('/', (request, response, next) => {
-  Note.find({})
-    .then(notes => response.json(notes))
-    .catch(error => next(error))
+notesRouter.get('/', async (request, response, next) => {
+  // Note.find({})
+  //   .then(notes => response.json(notes))
+  //   .catch(error => next(error))
+
+  // New, with async/await => https://fullstackopen.com/en/part4/testing_the_backend#async-await-in-the-backend
+  // But: What about the error-handler??
+  const notes = await Note.find({})
+  response.json(notes)
 })
 
 /**
@@ -38,7 +43,7 @@ notesRouter.post('/', (request, response, next) => {
   })
 
   note.save()
-    .then(savedNote => response.json(savedNote))
+    .then(savedNote => response.status(201).json(savedNote))
     .catch(error => next(error))
 })
 
