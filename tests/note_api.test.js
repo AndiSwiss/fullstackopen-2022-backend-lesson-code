@@ -28,13 +28,14 @@ test('there are two notes', async () => {
   // IntelliJ thinks that the 'await' in the following line is not necessary, but it certainly is!!
   // noinspection ES6RedundantAwait
   const response = await api.get('/api/notes')
-  expect(response.body).toHaveLength(2)
+  expect(response.body).toHaveLength(initialNotes.length)
 })
 
-test('the first note is about HTTP methods', async () => {
+test('a specific note is within the returned notes', async () => {
   // noinspection ES6RedundantAwait
   const response = await api.get('/api/notes')
-  expect(response.body[0].content).toBe('HTML is easy')
+  const contents = response.body.map(r => r.content)
+  expect(contents).toContain('Browser can execute only Javascript')
 })
 
 // NOTE:
