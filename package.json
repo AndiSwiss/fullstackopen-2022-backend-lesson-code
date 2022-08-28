@@ -4,8 +4,8 @@
   "description": "This is a repo for a backend for the Open University Course \"Full Stack Open\" https://fullstackopen.com/en. It is an addition to my other repo for this course: https://github.com/AndiSwiss/fullstackopen-2022.",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
+    "start": "NODE_ENV=production node index.js",
+    "dev": "NODE_ENV=development nodemon index.js",
     "set-heroku-git": "heroku git:remote -a fullstackopen-part3b-lesson",
     "build:frontend-part3": "rm -rf build && cd ../fullstackopen-2022/part3/lesson-code-frontend/ && npm run build && cd ../../../fullstackopen-2022-backend-lesson-code && cp -r ../fullstackopen-2022/part3/lesson-code-frontend/build ./",
     "deploy": "npm run set-heroku-git && git push heroku HEAD:main",
@@ -13,7 +13,7 @@
     "logs:prod": "heroku logs --tail",
     "heroku-local": "heroku local",
     "lint": "eslint .",
-    "test": "jest --verbose"
+    "test": "NODE_ENV=test jest --verbose --runInBand"
   },
   "repository": {
     "type": "git",
