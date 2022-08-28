@@ -3,15 +3,12 @@ const supertest = require('supertest')
 const app = require('../app')
 const api = supertest(app)
 const Note = require('../models/note')
+const helper = require('./test_helper')
 
-const initialNotes = [
-  { content: 'HTML is easy', date: new Date(), important: false },
-  { content: 'Browser can execute only Javascript', date: new Date(), important: true }
-]
 
 beforeEach(async () => {
   await Note.deleteMany({})
-  for (const note of initialNotes) {
+  for (const note of helper.initialNotes) {
     const noteObject = new Note(note)
     await noteObject.save()
   }
@@ -29,7 +26,7 @@ describe('get notes', () => {
     // IntelliJ thinks that the 'await' in the following line is not necessary, but it certainly is!!
     // noinspection ES6RedundantAwait
     const response = await api.get('/api/notes')
-    expect(response.body).toHaveLength(initialNotes.length)
+    expect(response.body).toHaveLength(helper.initialNotes.length)
   })
 
   test('a specific note is within the returned notes', async () => {
@@ -47,9 +44,9 @@ describe('new note', () => {
       .send(newNote)
       .expect(201)
       .expect('Content-Type', /application\/json/)
-    const response = await api.get('/api/notes')
-    const contents = response.body.map(r => r.content)
-    expect(response.body).toHaveLength(initialNotes.length + 1)
+    const notesAtEnd = await helper.notesInDb()
+    expect(notesAtEnd).toHaveLength(helper.initialNotes.length + 1)
+    const contents = notesAtEnd.map(n => n.content)
     expect(contents).toContain('async/await simplifies making async calls')
   })
 
@@ -59,8 +56,9 @@ describe('new note', () => {
       .post('/api/notes')
       .send(newNote)
       .expect(400)
-    const response = await api.get('/api/notes')
-    expect(response.body).toHaveLength(initialNotes.length)
+    const notesAtEnd = await helper.notesInDb()
+
+    expect(notesAtEnd).toHaveLength(helper.initialNotes.length)
   })
 })
 
