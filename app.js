@@ -1,5 +1,6 @@
 const { MONGODB_URL, MONGODB_URL_NO_PW } = require('./utils/config')
 const express = require('express')
+require('express-async-errors')
 const app = express()
 const cors = require('cors')
 const notesRouter = require('./controllers/notes')
