@@ -40,7 +40,35 @@ describe('get notes', () => {
   })
 })
 
-describe('new note', () => {
+describe('fetch individual note', () => {
+  test('a specific note can be viewed', async () => {
+    const notesAtStart = await helper.notesInDb()
+    const noteToView = notesAtStart[0]
+    const resultNote = await api
+      .get(`/api/notes/${noteToView.id}`)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+    // The following only has the effect that it converts the 'date' entry from an actual Date-Object to a Date-String
+    const processedNoteToView = JSON.parse(JSON.stringify(noteToView))
+    expect(resultNote.body).toEqual(processedNoteToView)
+  })
+
+  test('fails with statuscode 404 if note does not exist', async () => {
+    const validNonexistingId = await helper.nonExistingId()
+    await api
+      .get(`/api/notes/${validNonexistingId}`)
+      .expect(404)
+  })
+
+  test('fails with statuscode 400 id is invalid', async () => {
+    const invalidId = '5a3d5da59070081a82a3445'
+    await api
+      .get(`/api/notes/${invalidId}`)
+      .expect(400)
+  })
+})
+
+describe('adding a new note', () => {
   test('a valid note can be added', async () => {
     const newNote = { content: 'async/await simplifies making async calls', important: true }
     await api
@@ -54,7 +82,7 @@ describe('new note', () => {
     expect(contents).toContain('async/await simplifies making async calls')
   })
 
-  test('note without content is not added', async () => {
+  test('note without content is not added and fails with status code 400', async () => {
     const newNote = { important: true }
     await api
       .post('/api/notes')
@@ -65,7 +93,7 @@ describe('new note', () => {
     expect(notesAtEnd).toHaveLength(helper.initialNotes.length)
   })
 
-  test('note a too short title is not added', async () => {
+  test('note a too short title is not added and fails with status code 400', async () => {
     const newNote = { content: 'tiny', important: true }
     await api
       .post('/api/notes')
@@ -76,19 +104,7 @@ describe('new note', () => {
   })
 })
 
-describe('fetch, change and remove individual note', () => {
-  test('a specific note can be viewed', async () => {
-    const notesAtStart = await helper.notesInDb()
-    const noteToView = notesAtStart[0]
-    const resultNote = await api
-      .get(`/api/notes/${noteToView.id}`)
-      .expect(200)
-      .expect('Content-Type', /application\/json/)
-    // The following only has the effect that it converts the 'date' entry from an actual Date-Object to a Date-String
-    const processedNoteToView = JSON.parse(JSON.stringify(noteToView))
-    expect(resultNote.body).toEqual(processedNoteToView)
-  })
-
+describe('change and delete individual note', () => {
   test('note title can be changed', async () => {
     const notesAtStart = await helper.notesInDb()
     const noteToChange = { ...notesAtStart[0], content: 'Changed title is nice' }
