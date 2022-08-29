@@ -119,9 +119,9 @@ describe('change and delete individual note', () => {
 
   test('note title too short', async () => {
     const notesAtStart = await helper.notesInDb()
-    const noteToChange = { ...notesAtStart[0], content: 'Tiny' }
+    const noteIdToChange = notesAtStart[0].id
     await api
-      .put(`/api/notes/${noteToChange.id}`)
+      .put(`/api/notes/${noteIdToChange}`)
       .send({ content: 'Tiny' })
       .expect(400)
       .expect('Content-Type', /application\/json/)
