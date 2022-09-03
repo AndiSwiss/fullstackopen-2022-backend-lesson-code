@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/AndiSwiss/fullstackopen-2022-backend-lesson-code#readme",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "colors": "^1.4.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
