@@ -6,6 +6,12 @@
 
 ### Note: You can directly paste a curl-command => gets automatically converted to an http-request
 ### and via Context Action, you can create a curl-command from an http-request
+
+### GET Request
+GET http://localhost:3001/api/notes
+Accept: application/json
+
+### POST Request
 POST http://localhost:3001/api/notes
 Content-Type: application/json
 
