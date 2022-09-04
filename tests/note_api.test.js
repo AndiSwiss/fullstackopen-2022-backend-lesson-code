@@ -60,7 +60,7 @@ describe('fetch individual note', () => {
 })
 
 describe('adding a new note', () => {
-  test('a valid note can be added', async () => {
+  test('a valid note (with a valid userId) can be added', async () => {
     const firstUser = (await helper.usersInDb())[0]
     const newNote = {
       content: 'async/await simplifies making async calls',
@@ -78,7 +78,7 @@ describe('adding a new note', () => {
     expect(contents).toContain('async/await simplifies making async calls')
     // Also check, if the note was added to the user
     const updatedUser = (await helper.usersInDb())[0]
-    expect(updatedUser.notes).toHaveLength(1)
+    expect(updatedUser.notes).toHaveLength(firstUser.notes.length + 1)
   })
 
   test('a note without a valid userId fails', async () => {
