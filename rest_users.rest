@@ -1,0 +1,43 @@
+### GET Request
+GET http://localhost:3001/api/users
+Accept: application/json
+
+### POST Request
+POST http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+  "username": "root",
+  "name": "Superuser",
+  "password": "something7-NOT-salainen"
+}
+
+### POST Request
+POST http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+  "username": "andi",
+  "name": "Andi S",
+  "password": "Something-very-special7"
+}
+
+### POST of a note with user
+POST http://localhost:3001/api/notes
+Content-Type: application/json
+
+{
+  "content": "A note from Andi",
+  "important": true,
+  "userId": "63148de85669ef40f5374595"
+}
+
+### POST of a 2nd note with user
+POST http://localhost:3001/api/notes
+Content-Type: application/json
+
+{
+  "content": "one more note from Andi",
+  "important": false,
+  "userId": "63148de85669ef40f5374595"
+}

@@ -2,20 +2,11 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const api = supertest(app)
-const Note = require('../models/note')
 const helper = require('./test_helper')
 
 beforeEach(async () => {
-  await Note.deleteMany({})
-  for (const note of helper.initialNotes) {
-    const noteObject = new Note(note)
-    await noteObject.save()
-  }
-
-  //Other variant (also works) => https://fullstackopen.com/en/part4/testing_the_backend#optimizing-the-before-each-function
-  // const noteObjects = helper.initialNotes.map(note => new Note(note))
-  // const promiseArray = noteObjects.map(note => note.save())
-  // await Promise.all(promiseArray)
+  await helper.initializeUserDb()
+  await helper.initializeNoteDb()
 })
 
 describe('get notes', () => {
@@ -69,8 +60,13 @@ describe('fetch individual note', () => {
 })
 
 describe('adding a new note', () => {
-  test('a valid note can be added', async () => {
-    const newNote = { content: 'async/await simplifies making async calls', important: true }
+  test('a valid note (with a valid userId) can be added', async () => {
+    const firstUser = (await helper.usersInDb())[0]
+    const newNote = {
+      content: 'async/await simplifies making async calls',
+      important: true,
+      userId: firstUser.id
+    }
     await api
       .post('/api/notes')
       .send(newNote)
@@ -80,6 +76,20 @@ describe('adding a new note', () => {
     expect(notesAtEnd).toHaveLength(helper.initialNotes.length + 1)
     const contents = notesAtEnd.map(n => n.content)
     expect(contents).toContain('async/await simplifies making async calls')
+    // Also check, if the note was added to the user
+    const updatedUser = (await helper.usersInDb())[0]
+    expect(updatedUser.notes).toHaveLength(firstUser.notes.length + 1)
+  })
+
+  test('a note without a valid userId fails', async () => {
+    const newNote = { content: 'async/await simplifies making async calls', important: true }
+    await api
+      .post('/api/notes')
+      .send(newNote)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+    const notesAtEnd = await helper.notesInDb()
+    expect(notesAtEnd).toHaveLength(helper.initialNotes.length)
   })
 
   test('note without content is not added and fails with status code 400', async () => {
@@ -89,7 +99,6 @@ describe('adding a new note', () => {
       .send(newNote)
       .expect(400)
     const notesAtEnd = await helper.notesInDb()
-
     expect(notesAtEnd).toHaveLength(helper.initialNotes.length)
   })
 
